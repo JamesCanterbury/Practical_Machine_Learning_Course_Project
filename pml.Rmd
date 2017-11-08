@@ -1,0 +1,96 @@
+---
+title: "Practical_Machine_learning"
+author: "James Canterbury"
+date: "November 8, 2017"
+output: html_document
+---
+
+#Practical Machine Learning Course Project Report
+
+These is a file produced during a homework assignment of Coursera's MOOC Practical Machine Learning from Johns Hopkins Bloomberg School of Public Health.
+For more information about the several MOOCs comprised in this Specialization, please visit: https://www.coursera.org/specialization/jhudatascience/
+
+
+
+GitHub Repo: https://github.com/JamesCanterbury
+
+Rpub: http://rpubs.com/
+#Background
+
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, our goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
+
+#Data Sources
+
+The training data for this project is available here:
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
+The test data is available here:
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
+The data for this project comes from this original source: http://groupware.les.inf.puc-rio.br/har. If you use the document you create for this class for any purpose please cite them as they have been very generous in allowing their data to be used for this kind of assignment.
+Intended Results
+
+The goal of this project is to predict the manner in which they did the exercise. This is the "classe" variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did. You will also use your prediction model to predict 20 different test cases.
+
+
+#Reproducibility
+
+In order to reproduce the same results, you need a certain set of packages as well as setting a pseudo random seed equal to the one I have used.
+Note: To install, for instance, the rattle package in R, run this command: install.packages("rattle").
+The following Libraries were used for this project, which you should install and load them in your working environment.
+
+```{r setup, include=FALSE}
+
+library(rattle)
+library(caret)
+library(rpart)
+library(rpart.plot)
+library(corrplot)
+library(randomForest)
+library(RColorBrewer)
+
+ setwd("/home/mpiuser/Desktop/ml_coursera")
+#training <- read.csv("pml-training.csv")
+#test <- read.csv("pml-testing.csv")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Finally, load the same seed with the following line of code:
+
+```{r}
+set.seed(12345)
+
+```
+This is an R
+
+```{r download data}
+
+trainUrl <-"https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
+testUrl <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
+trainFile <- "pml-training.csv"
+testFile  <- "pml-testing.csv"
+
+if (!file.exists(trainFile)) {
+  download.file(trainUrl, destfile = trainFile, method = "wget")
+}
+if (!file.exists(testFile)) {
+  download.file(testUrl, destfile = testFile, method = "wget")
+}
+
+rm(trainUrl)
+rm(testUrl)
+
+training <- read.csv(trainFile)
+test <- read.csv(testFile)
+head(training)
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r , echo=FALSE}
+
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
